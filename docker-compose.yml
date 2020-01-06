@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+    # https://docs.traefik.io/getting-started/quick-start/
     reverse-proxy:
         # Official v2.0 Traefik docker image
         image: traefik:v2.0
