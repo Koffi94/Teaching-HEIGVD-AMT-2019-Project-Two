@@ -40,24 +40,23 @@ services:
 
     user-db:
         container_name: amt-user-db
-        image: mysql:5.7
-        volumes: 
-            - db_data: db-user/
+        build:
+            context: UsersAPI/Docker-Images/DB-image/
+
         ports:
             - "3306:3306"
 
         restart: always
         environment: 
-            - MYSQL_ROOT_PASSWORD: admin
+            MYSQL_ROOT_PASSWORD: "admin"
 
     entities-db:
-        container_name: amt-user-db
-        image: mysql:5.7
-        volumes:
-            - db_data: db-entities/
+        container_name: amt-entities-db
+        build:
+            context: EntitiesAPI/Docker-Images/DB-image/
         ports:
             - "4306:3306"
 
         restart: always
         environment: 
-            -MYSQL_ROOT_PASSWORD: admin
+            MYSQL_ROOT_PASSWORD: "admin"
