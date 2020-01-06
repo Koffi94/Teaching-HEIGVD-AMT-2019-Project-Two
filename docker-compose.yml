@@ -3,6 +3,7 @@ version: '3'
 services:
     # https://docs.traefik.io/getting-started/quick-start/
     reverse-proxy:
+        container_name: amt-traefik
         # Official v2.0 Traefik docker image
         image: traefik:v2.0
         # Enables the web UI and tells Traefik to listen to docker
@@ -15,3 +16,46 @@ services:
         volumes:
             # So that Traefik can listen to the Docker events
             - /var/run/docker.sock:/var/run/docker.sock
+
+        depends_on: 
+            - user-api
+            - entities-api
+
+    # https://www.baeldung.com/dockerizing-spring-boot-application
+    user-api:
+        container_name: amt-user-api
+        build:
+            context: UsersAPI/spring-server/
+
+        depends_on: 
+            - user-db
+
+    entities-api:
+        container_name: amt-entities-api
+
+        depends_on: 
+            - entities-db
+
+    user-db:
+        container_name: amt-user-db
+        image: mysql:5.7
+        volumes: 
+            - db_data: db-user/
+        ports:
+            - "3306:3306"
+
+        restart: always
+        environment: 
+            - MYSQL_ROOT_PASSWORD: admin
+
+    entities-db:
+        container_name: amt-user-db
+        image: mysql:5.7
+        volumes:
+            - db_data: db-entities/
+        ports:
+            - "4306:3306"
+
+        restart: always
+        environment: 
+            -MYSQL_ROOT_PASSWORD: admin
