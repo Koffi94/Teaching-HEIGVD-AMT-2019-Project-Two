@@ -37,7 +37,6 @@ public class UsersApiController implements UsersApi {
         return ResponseEntity.ok(users);
     }
 
-
     private UserEntity toUserEntity(User user) {
         UserEntity entity = new UserEntity();
         entity.setId(user.getId());
