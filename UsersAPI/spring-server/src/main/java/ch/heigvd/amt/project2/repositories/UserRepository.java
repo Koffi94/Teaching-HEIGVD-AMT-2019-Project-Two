@@ -13,6 +13,9 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     @Override
     Optional<UserEntity> findById(Long aLong);
 
+
+    UserEntity findByUsername(String username);
+
     @Transactional
     @Modifying(clearAutomatically = true) // (flushAutomatically = true)
     @Query("update UserEntity ue set ue.password = ?1 where ue.id = ?2")
