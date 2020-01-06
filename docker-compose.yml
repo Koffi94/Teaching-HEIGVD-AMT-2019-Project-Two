@@ -32,6 +32,8 @@ services:
 
     entities-api:
         container_name: amt-entities-api
+        build:
+            context: EntitiesAPI/spring-server/
 
         depends_on: 
             - entities-db
