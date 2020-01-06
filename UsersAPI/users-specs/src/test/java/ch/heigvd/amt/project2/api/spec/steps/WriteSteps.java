@@ -66,20 +66,20 @@ public class WriteSteps {
         }
     }
 
-    @Then("^I receive a (\\d+) status code for the creation$")
-    public void i_receive_a_status_code_for_the_creation(int arg1) throws Throwable {
-        assertEquals(201, lastStatusCode);
+    @Then("^I receive a (\\d+) status code$")
+    public void i_receive_a_status_code(int arg1) throws Throwable {
+        assertEquals(arg1, lastStatusCode);
     }
 
     @Given("^I have a new password$")
     public void i_have_a_new_password() throws Throwable {
-        assertNotNull(NEW_PASSWORD);
+        assertNotNull(NEW_PASSWORD); //FIXME test not really useful ?
     }
 
     @And("^a user id$")
     public void a_user_id() {
         assertNotNull(user.getId());
-    }
+    } //FIXME
 
     @When("^I PATCH the /users/userId endpoint$")
     public void i_PATCH_the_users_userId_endpoint() throws Throwable {
@@ -95,11 +95,6 @@ public class WriteSteps {
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
         }
-    }
-
-    @Then("^I receive a (\\d+) status code for the update$")
-    public void i_receive_a_status_code_for_the_update(int arg1) throws Throwable {
-        assertEquals(200, lastStatusCode);
     }
 
 }
