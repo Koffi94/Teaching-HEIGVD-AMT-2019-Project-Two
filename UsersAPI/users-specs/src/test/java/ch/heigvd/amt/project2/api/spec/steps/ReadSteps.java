@@ -59,7 +59,7 @@ public class ReadSteps {
 
     @Then("^I receive a (\\d+) status code$")
     public void i_receive_a_status_code(int arg1) throws Throwable {
-        assertEquals(200, lastStatusCode);
+        assertEquals(arg1, lastStatusCode);
     }
 
     @When("^I GET a user from the /users endpoint$")
