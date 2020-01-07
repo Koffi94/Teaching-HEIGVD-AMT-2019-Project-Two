@@ -39,7 +39,6 @@ public class UsersApiController implements UsersApi {
 
     private UserEntity toUserEntity(User user) {
         UserEntity entity = new UserEntity();
-        entity.setId(user.getId());
         entity.setFirstname(user.getFirstname());
         entity.setLastname(user.getLastname());
         entity.setUsername(user.getUsername());
@@ -51,7 +50,6 @@ public class UsersApiController implements UsersApi {
 
     private User toUser(UserEntity entity) {
         User user = new User();
-        user.setId(entity.getId());
         user.setFirstname(entity.getFirstname());
         user.setLastname(entity.getLastname());
         user.setUsername(entity.getUsername());

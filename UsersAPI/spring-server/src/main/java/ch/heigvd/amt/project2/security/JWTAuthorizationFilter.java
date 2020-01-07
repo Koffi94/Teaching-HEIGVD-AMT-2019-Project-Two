@@ -12,7 +12,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static ch.heigvd.amt.project2.security.SecurityConstants.HEADER_STRING;
 import static ch.heigvd.amt.project2.security.SecurityConstants.SECRET;
@@ -44,18 +47,36 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
+        String query = request.getRequestURI();
+        List<String> queryArray = parseQuery(query);
+
+        // parse the token
         if (token != null) {
-            // parse the token.
             String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            // Only admins can reach /users
+            if(queryArray.contains("/users/") && !user.contains("admin")) {
+                return null;
             }
+
+            // Only the user with id myId can reach /user/myId
+            if(queryArray.contains("/user/") && (!user.contains(queryArray.get(queryArray.size() - 1)))) {
+                return null;
+            }
+
+            return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+        } else {
             return null;
         }
-        return null;
+    }
+
+    private List<String> parseQuery(String query) {
+        String delims = "/";
+        String[] tokens = query.split(delims);
+        List<String> result = Arrays.asList(tokens);
+        return result;
     }
 }
