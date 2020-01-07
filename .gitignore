@@ -10,6 +10,7 @@ buildNumber.properties
 .idea/
 Swagger/node_modules/
 *.iml
+Swagger/dist/
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
