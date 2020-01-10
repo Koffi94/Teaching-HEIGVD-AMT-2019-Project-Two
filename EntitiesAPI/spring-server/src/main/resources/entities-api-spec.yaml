@@ -72,9 +72,7 @@ paths:
         200:
           description: "Successful operation"
           schema:
-            type: "object"
-            items:
-              $ref: "#/definitions/Movie"
+            $ref: "#/definitions/Movie"
         400:
           description: "Bad request"
     delete:
@@ -115,7 +113,7 @@ paths:
           description: "Movie object that needs to be edited"
           required: true
           schema:
-            $ref: "#/definitions/Screening"
+            $ref: "#/definitions/Movie"
       responses:
         200:
           description: "Successful operation"
@@ -177,9 +175,7 @@ paths:
         200:
           description: "Successful operation"
           schema:
-            type: "object"
-            items:
-              $ref: "#/definitions/Screening"
+            $ref: "#/definitions/Screening"
         400:
           description: "Bad request"
     delete:
@@ -282,9 +278,7 @@ paths:
         200:
           description: "Successful operation"
           schema:
-            type: "object"
-            items:
-              $ref: "#/definitions/Cinema"
+            $ref: "#/definitions/Cinema"
         400:
           description: "Bad request"
     delete:
