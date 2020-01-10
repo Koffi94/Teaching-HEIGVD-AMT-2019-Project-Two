@@ -1,0 +1,379 @@
+swagger: "2.0"
+info:
+  description: "This is the documentation of the AMT Project 2 - Entities API"
+  version: "1.0.0"
+  title: "AMT - Project 2 - Entities API"
+
+host: "localhost:8080"
+basePath: "/api"
+schemes:
+  - http
+tags:
+  - name: "movie"
+    description: "Operations about movies"
+  - name: "screening"
+    description: "Operations about screenings"
+  - name: "cinema"
+    description: "Operations about cinemas"
+paths:
+  /movies:
+    get:
+      tags:
+        - "movie"
+      summary: "Display all movies"
+      operationId: "getMovies"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Movie"
+        400:
+          description: "Bad request"
+  /movie:
+    post:
+      tags:
+        - "movie"
+      summary: "Add a new movie"
+      operationId: "addMovie"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Movie object that needs to be added to the DB"
+          required: true
+          schema:
+            $ref: "#/definitions/Movie"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /movie/{movie_id}:
+    get:
+      tags:
+        - "movie"
+      summary: "Display a movie"
+      operationId: "getMovie"
+      parameters:
+        - name: "movie_id"
+          in: "path"
+          description: "The movie id that needs to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Movie"
+        400:
+          description: "Bad request"
+    delete:
+      tags:
+        - "movie"
+      summary: "Delete a movie"
+      operationId: "deleteMovie"
+      parameters:
+        - name: "movie_id"
+          in: "path"
+          description: "The movie id that needs to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid movie supplied"
+        404:
+          description: "Movie not found"
+    patch:
+      tags:
+        - "movie"
+      summary: "Edit a movie"
+      operationId: "editMovie"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "movie_id"
+          description: "Movie id that needs to be edited"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "movie"
+          description: "Movie object that needs to be edited"
+          required: true
+          schema:
+            $ref: "#/definitions/Screening"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /screenings:
+    get:
+      tags:
+        - "screening"
+      summary: "Display all screenings"
+      operationId: "getScreenings"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Screening"
+        400:
+          description: "Bad request"
+  /screening:
+    post:
+      tags:
+        - "screening"
+      summary: "Add a new screening"
+      operationId: "addScreening"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Screening object that needs to be added to the DB"
+          required: true
+          schema:
+            $ref: "#/definitions/Screening"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /screening/{screening_id}:
+    get:
+      tags:
+        - "screening"
+      summary: "Display a screening"
+      operationId: "getScreening"
+      parameters:
+        - name: "screening_id"
+          in: "path"
+          description: "The screening id that needs to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Screening"
+        400:
+          description: "Bad request"
+    delete:
+      tags:
+        - "screening"
+      summary: "Delete a screening"
+      operationId: "deleteScreening"
+      parameters:
+        - name: "screening_id"
+          in: "path"
+          description: "The screening id that needs to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid screening supplied"
+        404:
+          description: "Screening not found"
+    patch:
+      tags:
+        - "screening"
+      summary: "Edit a screening"
+      operationId: "editScreening"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "screening_id"
+          description: "Screening id that needs to be edited"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "screening"
+          description: "Screening object that needs to be edited"
+          required: true
+          schema:
+            $ref: "#/definitions/Screening"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /cinemas:
+    get:
+      tags:
+        - "cinema"
+      summary: "Display all cinemas"
+      operationId: "getCinemas"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Cinema"
+        400:
+          description: "Bad request"
+  /cinema:
+    post:
+      tags:
+        - "cinema"
+      summary: "Add a new screening"
+      operationId: "addCinema"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Cinema object that needs to be added to the DB"
+          required: true
+          schema:
+            $ref: "#/definitions/Cinema"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /cinema/{cinema_id}:
+    get:
+      tags:
+        - "cinema"
+      summary: "Display a cinema"
+      operationId: "getCinema"
+      parameters:
+        - name: "cinema_id"
+          in: "path"
+          description: "The cinema id that needs to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Cinema"
+        400:
+          description: "Bad request"
+    delete:
+      tags:
+        - "cinema"
+      summary: "Delete a cinema"
+      operationId: "deleteCinema"
+      parameters:
+        - name: "cinema_id"
+          in: "path"
+          description: "The cinema id that needs to be deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid cinema supplied"
+        404:
+          description: "Cinema not found"
+    patch:
+      tags:
+        - "cinema"
+      summary: "Edit a cinema"
+      operationId: "editCinema"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "cinema_id"
+          description: "Cinema id that needs to be edited"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "cinema"
+          description: "Cinema object that needs to be edited"
+          required: true
+          schema:
+            $ref: "#/definitions/Cinema"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+definitions:
+  Movie:
+    type: "object"
+    properties:
+      movie_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      release_date:
+        type: "string"
+      category:
+        type: "string"
+    xml:
+      name: "Movie"
+  Screening:
+    type: "object"
+    properties:
+      screening_id:
+        type: "integer"
+        format: "int64"
+      user_id:
+        type: "integer"
+        format: "int64"
+      time:
+        type: "string"
+      room:
+        type: "string"
+      property:
+        type: "string"
+    xml:
+      name: "Screening"
+  Cinema:
+    type: "object"
+    properties:
+      cinema_id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      city:
+        type: "string"
+      price:
+        type: "string"
+    xml:
+      name: "Cinema"
