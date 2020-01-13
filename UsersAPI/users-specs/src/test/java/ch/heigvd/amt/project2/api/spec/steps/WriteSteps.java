@@ -51,8 +51,8 @@ public class WriteSteps {
         user.setPassword("test");
     }
 
-    @When("^I POST it to the /users endpoint$")
-    public void i_POST_it_to_the_users_endpoint() throws  Throwable {
+    @When("^I POST it to the /signup endpoint$")
+    public void i_POST_it_to_the_signup_endpoint() throws  Throwable {
         try{
             lastApiResponse = api.createUserWithHttpInfo(user);
             lastApiCallThrewException = false;

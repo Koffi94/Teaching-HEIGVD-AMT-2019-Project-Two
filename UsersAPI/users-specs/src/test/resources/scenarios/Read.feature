@@ -10,4 +10,4 @@ Feature: Retrieving users
 
   Scenario: Retrieving a user
     When I GET a user from the /users endpoint
-    Then I receive a 200 status code
+    Then I receive a 200 http status code

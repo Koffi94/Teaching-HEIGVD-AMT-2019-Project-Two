@@ -7,7 +7,7 @@ Feature: Creation of users
   Scenario: create a user
     Given I have a user payload
     # TODO modify endpoint to /sign-up
-    When I POST it to the /users endpoint
+    When I POST it to the /signup endpoint
     Then I receive a 201 status code
 
   Scenario: Update a user password
