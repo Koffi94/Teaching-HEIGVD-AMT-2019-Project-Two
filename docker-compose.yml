@@ -48,7 +48,14 @@ services:
 
         restart: always
         environment: 
+            #MYSQL_DATABASE: "db_example"
             MYSQL_ROOT_PASSWORD: "admin"
+
+    # For DB debugging
+    phpmyadmin-user:
+        container_name: amt-phpmyadmin-user
+        build: 
+            context: UsersAPI/Docker-Images/PHPmyAdmin-image
 
     entities-db:
         container_name: amt-entities-db
