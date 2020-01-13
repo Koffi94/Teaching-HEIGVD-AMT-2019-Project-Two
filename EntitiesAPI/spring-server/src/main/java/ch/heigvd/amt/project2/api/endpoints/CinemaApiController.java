@@ -1,7 +1,7 @@
 package ch.heigvd.amt.project2.api.endpoints;
 
 import ch.heigvd.amt.project2.api.CinemaApi;
-import ch.heigvd.amt.project2.api.model.Cinema;
+import ch.heigvd.amt.project2.api.model.CinemaManage;
 import ch.heigvd.amt.project2.entities.CinemaEntity;
 import ch.heigvd.amt.project2.repositories.ICinemaRepository;
 import io.swagger.annotations.ApiParam;
@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
-import static ch.heigvd.amt.project2.api.util.Transformer.toCinema;
-import static ch.heigvd.amt.project2.api.util.Transformer.toCinemaEntity;
+import static ch.heigvd.amt.project2.api.util.Transformer.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-16T19:36:34.802Z")
 @RestController
@@ -27,7 +25,7 @@ public class CinemaApiController implements CinemaApi {
     ICinemaRepository cinemaRepository;
 
     @Override
-    public ResponseEntity<Void> addCinema(@ApiParam(value = "Cinema object that needs to be added to the DB" ,required=true )  @Valid @RequestBody Cinema cinema) {
+    public ResponseEntity<Void> addCinema(@ApiParam(value = "Cinema object that needs to be added to the DB" ,required=true )  @Valid @RequestBody CinemaManage cinema) {
         CinemaEntity newCinemaEntity = toCinemaEntity(cinema);
         cinemaRepository.save(newCinemaEntity);
         URI location = ServletUriComponentsBuilder
@@ -45,7 +43,7 @@ public class CinemaApiController implements CinemaApi {
     }
 
     @Override
-    public ResponseEntity<Void> editCinema(@ApiParam(value = "Cinema id that needs to be edited",required=true) @PathVariable("cinema_id") Long cinemaId,@ApiParam(value = "Cinema object that needs to be edited" ,required=true )  @Valid @RequestBody Cinema cinema) {
+    public ResponseEntity<Void> editCinema(@ApiParam(value = "Cinema id that needs to be edited", required = true) @PathVariable("cinema_id") Long cinemaId, @ApiParam(value = "Cinema object that needs to be edited", required = true) @Valid @RequestBody CinemaManage cinema) {
         Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
         newCinemaEntity.get().setName(cinema.getName());
         newCinemaEntity.get().setCity(cinema.getCity());
@@ -55,9 +53,9 @@ public class CinemaApiController implements CinemaApi {
     }
 
     @Override
-    public ResponseEntity<Cinema> getCinema(@ApiParam(value = "The cinema id that needs to be fetched",required=true) @PathVariable("cinema_id") Long cinemaId) {
+    public ResponseEntity<CinemaManage> getCinema(@ApiParam(value = "The cinema id that needs to be fetched",required=true) @PathVariable("cinema_id") Long cinemaId) {
         Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
-        Cinema newCinema = toCinema(newCinemaEntity.get());
+        CinemaManage newCinema = toCinemaManage(newCinemaEntity.get());
         return ResponseEntity.ok(newCinema);
     }
 }
