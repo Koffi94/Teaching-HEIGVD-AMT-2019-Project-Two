@@ -1,8 +1,8 @@
-package io.avalia.fruits.api.util;
+package ch.heigvd.amt.project2.api.util;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-16T19:36:34.802Z")
 
 @javax.xml.bind.annotation.XmlRootElement
 public class ApiResponseMessage {

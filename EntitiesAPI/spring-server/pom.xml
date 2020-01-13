@@ -42,17 +42,17 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${basedir}/src/main/resources/api-spec.yaml</inputSpec>
+                            <inputSpec>${basedir}/src/main/resources/entities-api-spec.yaml</inputSpec>
                             <language>spring</language>
                             <configOptions>
                                 <dateLibrary>joda</dateLibrary>
                                 <useBeanValidation>true</useBeanValidation>
                                 <interfaceOnly>true</interfaceOnly>
                                 <delegatePattern>false</delegatePattern>
-                                <apiPackage>io.avalia.fruits.api</apiPackage>
-                                <configPackage>io.avalia.fruits.config</configPackage>
-                                <basePackage>io.avalia.fruits</basePackage>
-                                <modelPackage>io.avalia.fruits.api.model</modelPackage>
+                                <apiPackage>ch.heigvd.amt.project2.api</apiPackage>
+                                <configPackage>ch.heigvd.amt.project2.config</configPackage>
+                                <basePackage>ch.heigvd.amt.project2</basePackage>
+                                <modelPackage>ch.heigvd.amt.project2.api.model</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -61,6 +61,12 @@
         </plugins>
     </build>
     <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.10</version>
+                <scope>provided</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
@@ -82,6 +88,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <!--SpringFox dependencies -->
         <dependency>
@@ -108,12 +115,29 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.2.0</version>
         </dependency>
-    <!-- Bean Validation API support -->
+        <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.8.3</version>
+        </dependency>
+
+        <!-- Bean Validation API support -->
     <dependency>
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
         <version>2.0.1.Final</version>
         <scope>provided</scope>
     </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
     </dependencies>
 </project>

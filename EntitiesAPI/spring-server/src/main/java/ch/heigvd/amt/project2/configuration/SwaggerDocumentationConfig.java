@@ -1,4 +1,4 @@
-package io.avalia.fruits.configuration;
+package ch.heigvd.amt.project2.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,19 +10,19 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-16T19:36:34.802Z")
 
 @Configuration
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Fruits API")
-            .description("An API to demonstrate Swagger and Spring Boot")
+            .title("AMT - Project 2")
+            .description("This is the documentation of the AMT Project 2")
             .license("")
-            .licenseUrl("http://unlicense.org")
+            .licenseUrl("")
             .termsOfServiceUrl("")
-            .version("0.1.0")
+            .version("1.0.0")
             .contact(new Contact("","", ""))
             .build();
     }
@@ -31,7 +31,7 @@ public class SwaggerDocumentationConfig {
     public Docket customImplementation(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                    .apis(RequestHandlerSelectors.basePackage("io.avalia.fruits.api"))
+                    .apis(RequestHandlerSelectors.basePackage("ch.heigvd.amt.project2.api"))
                     .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
