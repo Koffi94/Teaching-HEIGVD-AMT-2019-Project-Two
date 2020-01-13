@@ -2,6 +2,7 @@ package ch.heigvd.amt.project2.api.spec.steps;
 
 import ch.heigvd.amt.project2.ApiException;
 import ch.heigvd.amt.project2.ApiResponse;
+import ch.heigvd.amt.project2.api.AuthenticationApi;
 import ch.heigvd.amt.project2.api.UserApi;
 import ch.heigvd.amt.project2.api.model.User;
 import ch.heigvd.amt.project2.api.spec.helpers.Environment;
@@ -22,6 +23,7 @@ public class WriteSteps {
 
     private Environment environment;
     private UserApi api;
+    private AuthenticationApi authApi;
 
     User user;
 
@@ -54,7 +56,7 @@ public class WriteSteps {
     @When("^I POST it to the /signup endpoint$")
     public void i_POST_it_to_the_signup_endpoint() throws  Throwable {
         try{
-            lastApiResponse = api.createUserWithHttpInfo(user);
+            lastApiResponse = authApi.createUserWithHttpInfo(user);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
