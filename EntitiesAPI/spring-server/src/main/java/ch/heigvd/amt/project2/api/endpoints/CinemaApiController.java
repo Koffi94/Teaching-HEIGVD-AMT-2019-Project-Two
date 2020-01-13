@@ -1,6 +1,7 @@
 package ch.heigvd.amt.project2.api.endpoints;
 
 import ch.heigvd.amt.project2.api.CinemaApi;
+import ch.heigvd.amt.project2.api.exceptions.EntityNotFoundException;
 import ch.heigvd.amt.project2.api.model.CinemaManage;
 import ch.heigvd.amt.project2.entities.CinemaEntity;
 import ch.heigvd.amt.project2.repositories.ICinemaRepository;
@@ -30,7 +31,7 @@ public class CinemaApiController implements CinemaApi {
         cinemaRepository.save(newCinemaEntity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/cinema/{id}")
-                .buildAndExpand(newCinemaEntity.getCinema_id()).toUri();
+                .buildAndExpand(newCinemaEntity.getCinemaId()).toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -55,6 +56,10 @@ public class CinemaApiController implements CinemaApi {
     @Override
     public ResponseEntity<CinemaManage> getCinema(@ApiParam(value = "The cinema id that needs to be fetched",required=true) @PathVariable("cinema_id") Long cinemaId) {
         Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
+        if(!newCinemaEntity.isPresent()) {
+            return ResponseEntity.status(404).build();
+            // throw new EntityNotFoundException(1, "Entity not found");
+        }
         CinemaManage newCinema = toCinemaManage(newCinemaEntity.get());
         return ResponseEntity.ok(newCinema);
     }

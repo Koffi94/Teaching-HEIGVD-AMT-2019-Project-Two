@@ -24,6 +24,13 @@ paths:
       operationId: "getMovies"
       produces:
         - "application/json"
+      parameters:
+        - in: "query"
+          name: "pageId"
+          type: "integer"
+        - in: "query"
+          name: "pageSize"
+          type: "integer"
       responses:
         200:
           description: "Successful operation"
@@ -127,6 +134,13 @@ paths:
       operationId: "getScreenings"
       produces:
         - "application/json"
+      parameters:
+        - in: "query"
+          name: "pageId"
+          type: "integer"
+        - in: "query"
+          name: "pageSize"
+          type: "integer"
       responses:
         200:
           description: "Successful operation"
@@ -230,6 +244,13 @@ paths:
       operationId: "getCinemas"
       produces:
         - "application/json"
+      parameters:
+        - in: "query"
+          name: "pageId"
+          type: "integer"
+        - in: "query"
+          name: "pageSize"
+          type: "integer"
       responses:
         200:
           description: "Successful operation"

@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity
 public class ScreeningEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long screening_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long screeningId;
     @Column(nullable=false)
-    private Long user_id;
+    private Long userId;
     private String time;
     @Column(nullable=false)
     private String room;

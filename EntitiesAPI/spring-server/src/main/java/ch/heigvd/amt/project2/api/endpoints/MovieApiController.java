@@ -30,7 +30,7 @@ public class MovieApiController implements MovieApi {
         movieRepository.save(newMovieEntity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/movie/{id}")
-                .buildAndExpand(newMovieEntity.getMovie_id()).toUri();
+                .buildAndExpand(newMovieEntity.getMovieId()).toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -55,6 +55,10 @@ public class MovieApiController implements MovieApi {
     @Override
     public ResponseEntity<MovieManage> getMovie(@ApiParam(value = "The movie id that needs to be fetched",required=true) @PathVariable("movie_id") Long movieId) {
         Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
+        if(!newMovieEntity.isPresent()) {
+            return ResponseEntity.status(404).build();
+            // throw new EntityNotFoundException(1, "Entity not found");
+        }
         MovieManage newMovie = toMovieManage(newMovieEntity.get());
         return  ResponseEntity.ok(newMovie);
     }

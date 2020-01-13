@@ -9,7 +9,7 @@ public class Transformer {
     // Cinemas conversions
     public static CinemaEntity toCinemaEntity(CinemaFull cinema) {
         CinemaEntity entity = new CinemaEntity();
-        entity.setCinema_id(cinema.getCinemaId());
+        entity.setCinemaId(cinema.getCinemaId());
         entity.setName(cinema.getName());
         entity.setCity(cinema.getCity());
         entity.setPrice(cinema.getPrice());
@@ -26,7 +26,7 @@ public class Transformer {
 
     public static CinemaFull toCinemaFull(CinemaEntity entity) {
         CinemaFull cinema = new CinemaFull();
-        cinema.setCinemaId(entity.getCinema_id());
+        cinema.setCinemaId(entity.getCinemaId());
         cinema.setName(entity.getName());
         cinema.setCity(entity.getCity());
         cinema.setPrice(entity.getPrice());
@@ -44,8 +44,8 @@ public class Transformer {
     // Screenings conversion
     public static ScreeningEntity toScrenningEntity(ScreeningFull screening) {
         ScreeningEntity entity = new ScreeningEntity();
-        entity.setScreening_id(screening.getScreeningId());
-        entity.setUser_id(screening.getUserId());
+        entity.setScreeningId(screening.getScreeningId());
+        entity.setUserId(screening.getUserId());
         entity.setTime(screening.getTime());
         entity.setRoom(screening.getRoom());
         entity.setProperty(screening.getProperty());
@@ -54,7 +54,7 @@ public class Transformer {
 
     public static ScreeningEntity toScrenningEntity(ScreeningManage screening) {
         ScreeningEntity entity = new ScreeningEntity();
-        entity.setUser_id(screening.getUserId());
+        entity.setUserId(screening.getUserId());
         entity.setTime(screening.getTime());
         entity.setRoom(screening.getRoom());
         entity.setProperty(screening.getProperty());
@@ -63,8 +63,8 @@ public class Transformer {
 
     public static ScreeningFull toScreeningFull(ScreeningEntity entity) {
         ScreeningFull screening = new ScreeningFull();
-        screening.setScreeningId(entity.getScreening_id());
-        screening.setUserId(entity.getUser_id());
+        screening.setScreeningId(entity.getScreeningId());
+        screening.setUserId(entity.getUserId());
         screening.setTime(entity.getTime());
         screening.setRoom(entity.getRoom());
         screening.setProperty(entity.getProperty());
@@ -73,7 +73,7 @@ public class Transformer {
 
     public static ScreeningManage toScreeningManage(ScreeningEntity entity) {
         ScreeningManage screening = new ScreeningManage();
-        screening.setUserId(entity.getUser_id());
+        screening.setUserId(entity.getUserId());
         screening.setTime(entity.getTime());
         screening.setRoom(entity.getRoom());
         screening.setProperty(entity.getProperty());
@@ -83,7 +83,7 @@ public class Transformer {
     // Movies conversion
     public static MovieEntity toMovieEntity(MovieFull movie) {
         MovieEntity entity = new MovieEntity();
-        entity.setMovie_id(movie.getMovieId());
+        entity.setMovieId(movie.getMovieId());
         entity.setTitle(movie.getTitle());
         entity.setRelease_date(movie.getReleaseDate());
         entity.setCategory(movie.getCategory());
@@ -100,7 +100,7 @@ public class Transformer {
 
     public static MovieFull toMovieFull(MovieEntity entity) {
         MovieFull movie = new MovieFull();
-        movie.setMovieId(entity.getMovie_id());
+        movie.setMovieId(entity.getMovieId());
         movie.setTitle(entity.getTitle());
         movie.setReleaseDate(entity.getRelease_date());
         movie.setCategory(entity.getCategory());

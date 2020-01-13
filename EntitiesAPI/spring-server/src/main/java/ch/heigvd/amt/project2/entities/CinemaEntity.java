@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Entity
 public class CinemaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long cinema_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cinemaId;
     @Column(nullable=false)
     private String name;
     @Column(nullable=false)

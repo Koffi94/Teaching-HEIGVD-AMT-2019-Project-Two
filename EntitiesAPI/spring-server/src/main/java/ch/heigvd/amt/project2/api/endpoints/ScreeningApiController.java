@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
@@ -25,13 +26,20 @@ public class ScreeningApiController implements ScreeningApi {
     @Autowired
     IScreeningRepository screeningRepository;
 
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
     @Override
     public ResponseEntity<Void> addScreening(@ApiParam(value = "Screening object that needs to be added to the DB" ,required=true )  @Valid @RequestBody ScreeningManage screening) {
         ScreeningEntity newScreeningEntity = toScrenningEntity(screening);
+        Long test = Long.valueOf(((String) httpServletRequest.getAttribute("subject")).charAt(0));
+        if(newScreeningEntity.getUserId() != Character.getNumericValue(((String) httpServletRequest.getAttribute("subject")).charAt(0))) {
+            return ResponseEntity.status(404).build();
+        }
         screeningRepository.save(newScreeningEntity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/screening/{id}")
-                .buildAndExpand(newScreeningEntity.getScreening_id()).toUri();
+                .buildAndExpand(newScreeningEntity.getScreeningId()).toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -46,7 +54,7 @@ public class ScreeningApiController implements ScreeningApi {
     @Override
     public ResponseEntity<Void> editScreening(@ApiParam(value = "Screening id that needs to be edited",required=true) @PathVariable("screening_id") Long screeningId,@ApiParam(value = "Screening object that needs to be edited" ,required=true )  @Valid @RequestBody ScreeningManage screening) {
         Optional<ScreeningEntity> newScreeningEntity = screeningRepository.findById(screeningId);
-        newScreeningEntity.get().setUser_id(screening.getUserId());
+        newScreeningEntity.get().setUserId(screening.getUserId());
         newScreeningEntity.get().setTime(screening.getTime());
         newScreeningEntity.get().setRoom(screening.getRoom());
         newScreeningEntity.get().setProperty(screening.getProperty());
@@ -57,6 +65,10 @@ public class ScreeningApiController implements ScreeningApi {
     @Override
     public ResponseEntity<ScreeningManage> getScreening(@ApiParam(value = "The screening id that needs to be fetched",required=true) @PathVariable("screening_id") Long screeningId) {
         Optional<ScreeningEntity> newScreeningEntity = screeningRepository.findById(screeningId);
+        if(!newScreeningEntity.isPresent()) {
+            return ResponseEntity.status(404).build();
+            // throw new EntityNotFoundException(1, "Entity not found");
+        }
         ScreeningManage newScreening = toScreeningManage(newScreeningEntity.get());
         return  ResponseEntity.ok(newScreening);
     }
