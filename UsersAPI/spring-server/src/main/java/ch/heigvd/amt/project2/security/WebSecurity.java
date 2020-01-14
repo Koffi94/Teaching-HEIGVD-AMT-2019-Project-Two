@@ -13,7 +13,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 
-import static ch.heigvd.amt.project2.security.SecurityConstants.CONSOLE_URL;
 import static ch.heigvd.amt.project2.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
@@ -28,12 +27,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Allow to access console H2 without CORS error
-        http.headers().frameOptions().sameOrigin();
-        http.csrf().ignoringAntMatchers("/console/**");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/console/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/console/**").permitAll();
-
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .anyRequest().authenticated()

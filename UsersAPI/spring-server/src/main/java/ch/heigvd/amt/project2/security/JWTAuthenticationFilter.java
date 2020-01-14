@@ -42,7 +42,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             BufferedReader reader = req.getReader();
             StringBuffer jb = new StringBuffer();
-            String line = null;
+            String line;
 
             while ((line = reader.readLine()) != null)
                 jb.append(line);
@@ -71,7 +71,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(makeJWTSubject(((User) auth.getPrincipal()).getAuthorities()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+
+        res.getWriter().write(TOKEN_PREFIX + token);
     }
 
     private String makeJWTSubject(Collection<GrantedAuthority> array) {

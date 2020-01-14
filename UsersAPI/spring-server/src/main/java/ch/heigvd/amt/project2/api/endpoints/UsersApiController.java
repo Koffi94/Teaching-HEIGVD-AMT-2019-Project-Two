@@ -1,24 +1,22 @@
 package ch.heigvd.amt.project2.api.endpoints;
 
 import ch.heigvd.amt.project2.api.UsersApi;
-import ch.heigvd.amt.project2.api.model.User;
+import ch.heigvd.amt.project2.api.model.UserFull;
 import ch.heigvd.amt.project2.entities.UserEntity;
 import ch.heigvd.amt.project2.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import static ch.heigvd.amt.project2.api.util.Transformer.toUserFull;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-16T19:36:34.802Z")
 
@@ -29,33 +27,21 @@ public class UsersApiController implements UsersApi {
     UserRepository userRepository;
 
     @Override
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = new ArrayList<>();
-        for (UserEntity userEntity : userRepository.findAll()) {
-            users.add(toUser(userEntity));
+    public ResponseEntity<List<UserFull>> getUsers(@ApiParam(value = "") @Valid @RequestParam(value = "pageId", required = false) Integer pageId, @ApiParam(value = "") @Valid @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        List<UserFull> users = new ArrayList<>();
+        if(pageId == null) {
+            pageId = 0;
+        }
+
+        if(pageSize == null) {
+            pageSize = 10;
+        }
+
+        Pageable pageable = PageRequest.of(pageId,pageSize);
+        Page<UserEntity> page = userRepository.findAll(pageable);
+        for (UserEntity movieEntity : page.toList()) {
+            users.add(toUserFull(movieEntity));
         }
         return ResponseEntity.ok(users);
-    }
-
-    private UserEntity toUserEntity(User user) {
-        UserEntity entity = new UserEntity();
-        entity.setFirstname(user.getFirstname());
-        entity.setLastname(user.getLastname());
-        entity.setUsername(user.getUsername());
-        entity.setPassword(user.getPassword());
-        entity.setEmail(user.getEmail());
-        entity.setRole(user.getRole());
-        return entity;
-    }
-
-    private User toUser(UserEntity entity) {
-        User user = new User();
-        user.setFirstname(entity.getFirstname());
-        user.setLastname(entity.getLastname());
-        user.setUsername(entity.getUsername());
-        user.setPassword(entity.getPassword());
-        user.setEmail(entity.getEmail());
-        user.setRole(entity.getRole());
-        return user;
     }
 }

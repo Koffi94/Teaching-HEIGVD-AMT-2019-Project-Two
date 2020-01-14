@@ -18,56 +18,93 @@ paths:
     get:
       tags:
         - "user"
-      description: "Get the list of all users details. Only admins can do this operation."
+      summary: "Display all users"
       operationId: "getUsers"
       produces:
         - "application/json"
+      parameters:
+        - in: "query"
+          name: "pageId"
+          type: "integer"
+        - in: "query"
+          name: "pageSize"
+          type: "integer"
       responses:
         200:
-          description: "success"
+          description: "Successful operation"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/User"
-  /user/{userId}:
-    patch:
-      tags:
-        - "user"
-      description: "change user password. An authenticated user can only change his password."
-      operationId: "changePassword"
-      consumes:
-        - "application/json"
-      parameters:
-        - name: "userId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "newPassword"
-          in: "query"
-          type: "string"
-      responses:
-        200:
-          description: "updated"
+              $ref: "#/definitions/UserFull"
+        400:
+          description: "Bad request"
+  /user/{user_id}:
     get:
       tags:
         - "user"
-      description: "Get a user details. An authenticated user can only see his details."
-      operationId: "getUserById"
+      summary: "Display a user"
+      operationId: "getUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "The user id that needs to be fetched"
+          required: true
+          type: "integer"
+          format: "int64"
       produces:
         - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/UserManage"
+        400:
+          description: "Bad request"
+    delete:
+      tags:
+        - "user"
+      summary: "Delete a user"
+      operationId: "deleteUser"
       parameters:
-        - name: "userId"
+        - name: "user_id"
           in: "path"
+          description: "The user id that needs to be deleted"
           required: true
           type: "integer"
           format: "int64"
       responses:
         200:
-          description: "success"
+          description: "Successful operation"
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+        - "user"
+      summary: "Edit a user"
+      operationId: "editUser"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "user_id"
+          description: "User id that needs to be edited"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "user"
+          description: "User object that needs to be edited"
+          required: true
           schema:
-            $ref: "#/definitions/User"
-  /user/sign-up:
+            $ref: "#/definitions/UserManage"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /sign-up:
     post:
       tags:
         - "authentication"
@@ -80,12 +117,14 @@ paths:
           in: "body"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserManage"
       responses:
         201:
           description: "created"
+        400:
+          description: "Bad input"
 definitions:
-  User:
+  UserFull:
     type: "object"
     properties:
       id:
@@ -104,4 +143,21 @@ definitions:
       role:
         type: "string"
     xml:
-      name: "User"
+      name: "UserFull"
+  UserManage:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      username:
+        type: "string"
+      password:
+        type: "string"
+      email:
+        type: "string"
+      role:
+        type: "string"
+    xml:
+      name: "UserManage"
