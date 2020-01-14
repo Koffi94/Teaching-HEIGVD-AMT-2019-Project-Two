@@ -29,6 +29,8 @@ services:
 
         depends_on: 
             - user-db
+        links: 
+            - user-db
 
     entities-api:
         container_name: amt-entities-api
@@ -48,7 +50,25 @@ services:
 
         restart: always
         environment: 
+            #MYSQL_DATABASE: "db_example"
             MYSQL_ROOT_PASSWORD: "admin"
+
+    # For DB debugging
+    phpmyadmin-user:
+        container_name: amt-phpmyadmin-user
+        build: 
+            context: UsersAPI/Docker-Images/PHPmyAdmin-image
+        environment: 
+            PMA_USER: "root"
+            PMA_PASSWORD: "admin"
+            PMA_HOST: "user-db"
+            PMA_PORT: "3306"
+        ports: 
+            - 80:80
+        links: 
+            - user-db
+        depends_on: 
+            - user-db
 
     entities-db:
         container_name: amt-entities-db

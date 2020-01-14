@@ -37,7 +37,7 @@ public class ReadSteps {
         this.user.setPassword("test");
     }
 
-    @Given("^there a User API server$")
+    @Given("^there is a User Api server$")
     public void there_a_User_API_server() throws Throwable {
         assertNotNull(api);
     }
@@ -57,11 +57,6 @@ public class ReadSteps {
         }
     }
 
-    @Then("^I receive a (\\d+) status code$")
-    public void i_receive_a_status_code(int arg1) throws Throwable {
-        assertEquals(200, lastStatusCode);
-    }
-
     @When("^I GET a user from the /users endpoint$")
     public void i_GET_a_user_from_the_users_endpoint() throws Throwable {
         try{
@@ -75,5 +70,15 @@ public class ReadSteps {
             lastApiCallThrewException = true;
             lastStatusCode = lastApiException.getCode();
         }
+    }
+
+    @Then("^I receive a (\\d+)status code$")
+    public void i_receive_a_status_code(int arg1) throws Throwable {
+        assertEquals(arg1, lastStatusCode);
+    }
+
+    @Then("^I receive a (\\d+) http status code$")
+    public void i_receive_a_http_status_code(int arg1) throws Throwable {
+        assertEquals(arg1, lastStatusCode);
     }
 }
