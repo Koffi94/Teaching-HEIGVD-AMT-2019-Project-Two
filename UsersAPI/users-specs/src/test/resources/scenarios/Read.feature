@@ -2,7 +2,7 @@
 Feature: Retrieving users
 
   Background:
-    Given There is a User Api server
+    Given there is a User Api server
 
   Scenario: Retrieving all users
     When I GET the users from the /users endpoint

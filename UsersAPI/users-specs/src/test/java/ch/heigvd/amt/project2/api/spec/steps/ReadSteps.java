@@ -37,7 +37,7 @@ public class ReadSteps {
         this.user.setPassword("test");
     }
 
-    @Given("^there a User API server$")
+    @Given("^there is a User Api server$")
     public void there_a_User_API_server() throws Throwable {
         assertNotNull(api);
     }
