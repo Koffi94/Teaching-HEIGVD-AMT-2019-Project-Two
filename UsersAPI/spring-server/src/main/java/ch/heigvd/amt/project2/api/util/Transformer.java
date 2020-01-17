@@ -1,5 +1,7 @@
 package ch.heigvd.amt.project2.api.util;
 
+import ch.heigvd.amt.project2.api.UserApi;
+import ch.heigvd.amt.project2.api.model.UserAuth;
 import ch.heigvd.amt.project2.api.model.UserFull;
 import ch.heigvd.amt.project2.api.model.UserManage;
 import ch.heigvd.amt.project2.entities.UserEntity;

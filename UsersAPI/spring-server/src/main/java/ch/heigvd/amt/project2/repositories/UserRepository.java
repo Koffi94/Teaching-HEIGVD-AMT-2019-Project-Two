@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
     UserEntity findByUsername(String username);
     Page<UserEntity> findAll(Pageable pageable);
