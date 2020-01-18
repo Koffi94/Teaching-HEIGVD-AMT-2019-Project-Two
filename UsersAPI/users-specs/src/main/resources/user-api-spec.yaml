@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "This is the documentation of the AMT Project 2"
+  description: "This is the specifications of the User API"
   version: "1.0.0"
   title: "AMT - Project 2"
 
@@ -9,68 +9,105 @@ basePath: "/api"
 schemes:
   - http
 tags:
-  - name: "user"
+  - name: "User"
     description: "Operations about user"
-  - name: "authentication"
+  - name: "Authentication"
     description: "Operations about authentication (sign-up, login, logout, etc)"
 paths:
   /users:
     get:
       tags:
-        - "user"
-      description: "Get the list of all users details. Only admins can do this operation."
+        - "User"
+      summary: "Display all users"
       operationId: "getUsers"
       produces:
         - "application/json"
+      parameters:
+        - in: "query"
+          name: "pageId"
+          type: "integer"
+        - in: "query"
+          name: "pageSize"
+          type: "integer"
       responses:
         200:
-          description: "success"
+          description: "Successful operation"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/User"
-  /user/{userId}:
-    patch:
+              $ref: "#/definitions/UserFull"
+        400:
+          description: "Bad request"
+  /user/{user_id}:
+    get:
       tags:
-        - "user"
-      description: "change user password. An authenticated user can only change his password."
-      operationId: "changePassword"
+        - "User"
+      summary: "Display a user"
+      operationId: "getUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "The user id that needs to be fetched"
+          required: true
+          type: "integer"
+          format: "int32"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/UserManage"
+        400:
+          description: "Bad request"
+    delete:
+      tags:
+        - "User"
+      summary: "Delete a user"
+      operationId: "deleteUser"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "The user id that needs to be deleted"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+        - "User"
+      summary: "Edit a user"
+      operationId: "editUser"
       consumes:
         - "application/json"
       parameters:
-        - name: "userId"
-          in: "path"
+        - in: "path"
+          name: "user_id"
+          description: "User id that needs to be edited"
           required: true
           type: "integer"
-          format: "int64"
-        - name: "newPassword"
-          in: "query"
-          type: "string"
-      responses:
-        200:
-          description: "updated"
-    get:
-      tags:
-        - "user"
-      description: "Get a user details. An authenticated user can only see his details."
-      operationId: "getUserById"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "userId"
-          in: "path"
+          format: "int32"
+        - in: "body"
+          name: "user"
+          description: "User object that needs to be edited"
           required: true
-          type: "integer"
-          format: "int64"
-      responses:
-        200:
-          description: "success"
           schema:
-            $ref: "#/definitions/User"
-  /user/sign-up:
+            $ref: "#/definitions/UserManage"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Bad input"
+  /sign-up:
     post:
       tags:
-        - "authentication"
+        - "Authentication"
       description: "create a new user"
       operationId: "createUser"
       consumes:
@@ -80,17 +117,38 @@ paths:
           in: "body"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserManage"
       responses:
         201:
           description: "created"
+        400:
+          description: "Bad input"
+  /login:
+    post:
+      tags:
+        - "Authentication"
+      description: "Authenticate a user"
+      operationId: "AuthenticateUser"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "user"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserAuth"
+      responses:
+        201:
+          description: "created"
+        400:
+          description: "Bad input"
 definitions:
-  User:
+  UserFull:
     type: "object"
     properties:
       id:
         type: "integer"
-        format: "int64"
+        format: "int32"
       firstname:
         type: "string"
       lastname:
@@ -104,4 +162,30 @@ definitions:
       role:
         type: "string"
     xml:
-      name: "User"
+      name: "UserFull"
+  UserManage:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      username:
+        type: "string"
+      password:
+        type: "string"
+      email:
+        type: "string"
+      role:
+        type: "string"
+    xml:
+      name: "UserManage"
+  UserAuth:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "UserAuth"

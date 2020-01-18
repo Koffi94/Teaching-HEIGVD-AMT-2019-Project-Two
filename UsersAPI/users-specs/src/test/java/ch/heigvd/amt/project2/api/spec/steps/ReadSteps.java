@@ -3,7 +3,7 @@ package ch.heigvd.amt.project2.api.spec.steps;
 import ch.heigvd.amt.project2.ApiException;
 import ch.heigvd.amt.project2.ApiResponse;
 import ch.heigvd.amt.project2.api.UserApi;
-import ch.heigvd.amt.project2.api.model.User;
+import ch.heigvd.amt.project2.api.model.UserFull;
 import ch.heigvd.amt.project2.api.spec.helpers.Environment;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
@@ -18,19 +18,21 @@ public class ReadSteps {
     private Environment environment;
     private UserApi api;
 
-    User user;
+    UserFull user;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
 
-    static final long USER_ID = 0;
+    static final int USER_ID = 0;
+    static final int PAGE = 1;
+    static final int PAGE_SIZE = 10;
 
     public ReadSteps(Environment environment){
         this.environment = environment;
         this.api = environment.getApi();
-        this.user = new User();
+        this.user = new UserFull();
         this.user.setEmail("test@mail.com");
         this.user.setFirstname("Jane");
         this.user.setLastname("Doe");
@@ -45,7 +47,7 @@ public class ReadSteps {
     @When("^I GET the users from the /users endpoint$")
     public void i_GET_the_users_from_the_users_endpoint() throws Throwable {
         try{
-            lastApiResponse = api.getUsersWithHttpInfo();
+            lastApiResponse = api.getUsersWithHttpInfo(PAGE, PAGE_SIZE);
             lastApiException = null;
             lastApiCallThrewException = false;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -60,7 +62,7 @@ public class ReadSteps {
     @When("^I GET a user from the /users endpoint$")
     public void i_GET_a_user_from_the_users_endpoint() throws Throwable {
         try{
-            lastApiResponse = api.getUserByIdWithHttpInfo(USER_ID);
+            lastApiResponse = api.getUserWithHttpInfo(USER_ID);
             lastApiException = null;
             lastApiCallThrewException = false;
             lastStatusCode = lastApiResponse.getStatusCode();

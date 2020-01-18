@@ -4,22 +4,17 @@ import ch.heigvd.amt.project2.ApiException;
 import ch.heigvd.amt.project2.ApiResponse;
 import ch.heigvd.amt.project2.api.AuthenticationApi;
 import ch.heigvd.amt.project2.api.UserApi;
-import ch.heigvd.amt.project2.api.model.User;
+import ch.heigvd.amt.project2.api.model.UserAuth;
+import ch.heigvd.amt.project2.api.model.UserFull;
+import ch.heigvd.amt.project2.api.model.UserManage;
 import ch.heigvd.amt.project2.api.spec.helpers.Environment;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.swagger.annotations.Api;
-import okhttp3.*;
-import okio.BufferedSink;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,11 +28,14 @@ public class CreationSteps {
     private Environment environment;
     private UserApi api;
     private AuthenticationApi authApi;
-    private User user;
+    private UserFull userFull;
+    private UserManage userManage;
+    private UserAuth userAuth;
     private String token;
 
     private final String NEW_PASSWORD = "test2";
-    private final String URL = "http://localhost:8080/api/login";
+    private final String PASSWORD = "test";
+    private final String USERNAME = "Test";
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -47,7 +45,9 @@ public class CreationSteps {
     public CreationSteps(Environment environment){
         this.environment = environment;
         this.api = environment.getApi();
-        this.user = environment.getUser();
+        //this.userFull = environment.getUserFull();
+        this.userManage = environment.getUserManage();
+        this.userAuth = environment.getUserAuth();
         this.token = environment.getToken();
         this.authApi = environment.getAuthenticationApi();
     }
@@ -64,19 +64,18 @@ public class CreationSteps {
 
     @Given("^I have a user payload$")
     public void i_have_a_user_payload() throws Throwable {
-        user.setId(null);
-        user.setEmail("userJohn@mail.com");
-        user.setFirstname("John");
-        user.setLastname("Doe");
-        user.setUsername("Test2");
-        user.setPassword("test");
-        user.setRole("admin");
+        userManage.setEmail("userJohn@mail.com");
+        userManage.setFirstname("John");
+        userManage.setLastname("Doe");
+        userManage.setUsername(USERNAME);
+        userManage.setPassword(PASSWORD);
+        userManage.setRole("admin");
     }
 
     @When("^I POST it to the /signup endpoint$")
     public void i_POST_it_to_the_signup_endpoint() throws  Throwable {
         try{
-            lastApiResponse = authApi.createUserWithHttpInfo(user);
+            lastApiResponse = authApi.createUserWithHttpInfo(userManage);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -95,43 +94,31 @@ public class CreationSteps {
 
     @Given("^I have a username$")
     public void i_have_a_username() throws Throwable {
-        user.setUsername("Test2");
-        //assertNotNull(user.getUsername());
+        userAuth.setPassword(PASSWORD);
     }
     @Given("^a password$")
     public void a_password() throws Throwable {
-        user.setPassword("test");
-        //assertNotNull(user.getPassword());
+        userAuth.setUsername(USERNAME);
     }
     @When("^I log into the /login endpoint$")
     public void i_log_into_the_login_endpoint() throws Throwable {
-        // https://www.baeldung.com/okhttp-post
-        OkHttpClient client = new OkHttpClient();
         try{
-            JsonObject payload = new JsonObject();
-            payload.addProperty("username", user.getUsername());
-            payload.addProperty("password", user.getPassword());
-
-            RequestBody body = RequestBody.create(MediaType.parse("application/json"), String.valueOf(payload));
-
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .post(body)
-                    .build();
-
-            Call call = client.newCall(request);
-            Response response = call.execute();
-
-            environment.setToken(response.header("Authorization"));
-            lastStatusCode = response.code();
-
-        }catch(IOException e){
-            System.out.println(e.getMessage());
+            lastApiResponse = authApi.authenticateUserWithHttpInfo(userAuth);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiResponse = null;
+            lastApiCallThrewException = true;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
         }
     }
     @Then("^a bearer token$")
     public void a_bearer_token() throws Throwable {
-        assertNotNull(environment.getToken());
+        Map<String, List<String>> headers = lastApiResponse.getHeaders();
+        List<String> token = headers.get("Authorization");
+        assertNotNull(token.get(0));
     }
 
     @Given("^I have a new password$")
@@ -141,13 +128,13 @@ public class CreationSteps {
 
     @And("^a user id$")
     public void a_user_id() {
-        assertNotNull(user.getId());
+        assertNotNull(userFull.getId());
     } //FIXME
 
     @When("^I PATCH the /users/userId endpoint$")
     public void i_PATCH_the_users_userId_endpoint() throws Throwable {
-        try{
-            lastApiResponse = api.changePasswordWithHttpInfo(user.getId(), NEW_PASSWORD);
+        /*try{
+            lastApiResponse = api.getUserWithHttpInfo(1);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -157,7 +144,7 @@ public class CreationSteps {
             lastApiCallThrewException = true;
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
-        }
+        }*/
     }
 
 }
