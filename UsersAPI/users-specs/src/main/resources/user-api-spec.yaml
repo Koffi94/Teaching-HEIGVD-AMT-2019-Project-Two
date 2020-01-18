@@ -8,14 +8,22 @@ host: "localhost:8080"
 basePath: "/api"
 schemes:
   - http
+securityDefinitions:
+  basicAuth:
+    type: apiKey
+    name: Authorization
+    in: header
 tags:
   - name: "User"
     description: "Operations about user"
   - name: "Authentication"
     description: "Operations about authentication (sign-up, login, logout, etc)"
+
 paths:
   /users:
     get:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Display all users"
@@ -40,6 +48,8 @@ paths:
           description: "Bad request"
   /user/{user_id}:
     get:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Display a user"
@@ -80,6 +90,8 @@ paths:
         404:
           description: "User not found"
     put:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Edit a user"
@@ -125,6 +137,8 @@ paths:
           description: "Bad input"
   /login:
     post:
+      security:
+        - basicAuth: []
       tags:
         - "Authentication"
       description: "Authenticate a user"
@@ -138,8 +152,8 @@ paths:
           schema:
             $ref: "#/definitions/UserAuth"
       responses:
-        201:
-          description: "created"
+        200:
+          description: "OK"
         400:
           description: "Bad input"
 definitions:
