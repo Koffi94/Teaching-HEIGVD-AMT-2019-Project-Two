@@ -1,7 +1,6 @@
 package ch.heigvd.amt.project2.api.endpoints;
 
 import ch.heigvd.amt.project2.api.CinemaApi;
-import ch.heigvd.amt.project2.api.exceptions.EntityNotFoundException;
 import ch.heigvd.amt.project2.api.model.CinemaManage;
 import ch.heigvd.amt.project2.entities.CinemaEntity;
 import ch.heigvd.amt.project2.repositories.ICinemaRepository;
@@ -27,40 +26,52 @@ public class CinemaApiController implements CinemaApi {
 
     @Override
     public ResponseEntity<Void> addCinema(@ApiParam(value = "Cinema object that needs to be added to the DB" ,required=true )  @Valid @RequestBody CinemaManage cinema) {
-        CinemaEntity newCinemaEntity = toCinemaEntity(cinema);
-        cinemaRepository.save(newCinemaEntity);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/cinema/{id}")
-                .buildAndExpand(newCinemaEntity.getCinemaId()).toUri();
+        try {
+            CinemaEntity newCinemaEntity = toCinemaEntity(cinema);
+            cinemaRepository.save(newCinemaEntity);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/cinema/{id}")
+                    .buildAndExpand(newCinemaEntity.getCinemaId()).toUri();
 
-        return ResponseEntity.created(location).build();
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteCinema(@ApiParam(value = "The cinema id that needs to be deleted",required=true) @PathVariable("cinema_id") Long cinemaId) {
-        Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
-        cinemaRepository.delete(newCinemaEntity.get());
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Void> editCinema(@ApiParam(value = "Cinema id that needs to be edited", required = true) @PathVariable("cinema_id") Long cinemaId, @ApiParam(value = "Cinema object that needs to be edited", required = true) @Valid @RequestBody CinemaManage cinema) {
-        Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
-        newCinemaEntity.get().setName(cinema.getName());
-        newCinemaEntity.get().setCity(cinema.getCity());
-        newCinemaEntity.get().setPrice(cinema.getPrice());
-        cinemaRepository.save(newCinemaEntity.get());
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<CinemaManage> getCinema(@ApiParam(value = "The cinema id that needs to be fetched",required=true) @PathVariable("cinema_id") Long cinemaId) {
-        Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
-        if(!newCinemaEntity.isPresent()) {
-            return ResponseEntity.status(404).build();
-            // throw new EntityNotFoundException(1, "Entity not found");
+            return ResponseEntity.created(location).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
         }
-        CinemaManage newCinema = toCinemaManage(newCinemaEntity.get());
-        return ResponseEntity.ok(newCinema);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteCinema(@ApiParam(value = "The cinema id that needs to be deleted",required=true) @PathVariable("cinema_id") Integer cinemaId) {
+        try {
+            Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
+            cinemaRepository.delete(newCinemaEntity.get());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> editCinema(@ApiParam(value = "Cinema id that needs to be edited", required = true) @PathVariable("cinema_id") Integer cinemaId, @ApiParam(value = "Cinema object that needs to be edited", required = true) @Valid @RequestBody CinemaManage cinema) {
+        try {
+            Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
+            newCinemaEntity.get().setName(cinema.getName());
+            newCinemaEntity.get().setCity(cinema.getCity());
+            newCinemaEntity.get().setPrice(cinema.getPrice());
+            cinemaRepository.save(newCinemaEntity.get());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<CinemaManage> getCinema(@ApiParam(value = "The cinema id that needs to be fetched",required=true) @PathVariable("cinema_id") Integer cinemaId) {
+        try {
+            Optional<CinemaEntity> newCinemaEntity = cinemaRepository.findById(cinemaId);
+            CinemaManage newCinema = toCinemaManage(newCinemaEntity.get());
+            return ResponseEntity.ok(newCinema);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
     }
 }

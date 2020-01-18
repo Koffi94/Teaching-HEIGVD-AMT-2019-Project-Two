@@ -38,9 +38,7 @@ public class ScreeningsApiController implements ScreeningsApi {
 
     @Override
     public ResponseEntity<List<ScreeningFull>> getScreenings(@ApiParam(value = "") @Valid @RequestParam(value = "pageId", required = false) Integer pageId,@ApiParam(value = "") @Valid @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        Long userId = (Long) httpServletRequest.getAttribute("userId");
-        userId = 1L; // Temporaire
-        if(userId != null) {
+        try {
             List<ScreeningFull> screenings = new ArrayList<>();
             if(pageId == null) {
                 pageId = 0;
@@ -51,12 +49,17 @@ public class ScreeningsApiController implements ScreeningsApi {
             }
 
             Pageable pageable = PageRequest.of(pageId,pageSize);
-            Page<ScreeningEntity> page = screeningRepository.findByUserId(userId, pageable);
+            Page<ScreeningEntity> page;
+            if(httpServletRequest.getAttribute("role").equals("admin")) {
+                page = (Page<ScreeningEntity>) screeningRepository.findAll(pageable);
+            } else {
+                page = screeningRepository.findByUserId((Integer) httpServletRequest.getAttribute("id"), pageable);
+            }
             for (ScreeningEntity screeningEntity : page.toList()) {
                 screenings.add(toScreeningFull(screeningEntity));
             }
             return ResponseEntity.ok(screenings);
-        } else {
+        } catch (Exception e) {
             return ResponseEntity.status(404).build();
         }
     }
