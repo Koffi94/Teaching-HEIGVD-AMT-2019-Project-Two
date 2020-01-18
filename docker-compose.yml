@@ -40,7 +40,7 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.management.rule=Host(`localhost`) && PathPrefix(`/api/auth`)"
-            - "traefik.http.services.app.loadbalancer.server.port=8080"
+            - "traefik.http.services.management.loadbalancer.server.port=8080"
 
     entities-api:
         container_name: amt-entities-api
@@ -51,7 +51,7 @@ services:
             - db
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.management.rule=Host(`localhost`) && PathPrefix(`/api/business`)"
+            - "traefik.http.routers.app.rule=Host(`localhost`) && PathPrefix(`/api/business`)"
             - "traefik.http.services.app.loadbalancer.server.port=8080"
 
     db:
