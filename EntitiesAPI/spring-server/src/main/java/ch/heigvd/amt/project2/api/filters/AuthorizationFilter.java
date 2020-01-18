@@ -2,6 +2,7 @@ package ch.heigvd.amt.project2.api.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import org.json.JSONObject;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import javax.servlet.*;
@@ -35,19 +36,14 @@ public class AuthorizationFilter implements Filter {
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
-            this.context.log(token);
-            if(subject.matches("([0-9]*);(.*)admin(.*)|(.*)user(.*)")) {
-                request.setAttribute("subject", subject);
+            JSONObject jsonObj = new JSONObject(subject);
+            if(jsonObj != null && !jsonObj.isNull("id") && !jsonObj.isNull("role")) {
+                request.setAttribute("id", jsonObj.get("id"));
+                request.setAttribute("role", jsonObj.get("role"));
                 chain.doFilter(request, response);
             }
         } else {
             res.sendError(HttpServletResponse.SC_FORBIDDEN);
         }
     }
-
-    @Override
-    public void destroy() {
-        //we can close resources here
-    }
-
 }

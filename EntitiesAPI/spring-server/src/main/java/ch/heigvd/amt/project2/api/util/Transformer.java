@@ -4,8 +4,10 @@ import ch.heigvd.amt.project2.api.model.*;
 import ch.heigvd.amt.project2.entities.CinemaEntity;
 import ch.heigvd.amt.project2.entities.MovieEntity;
 import ch.heigvd.amt.project2.entities.ScreeningEntity;
+import java.io.Serializable;
 
-public class Transformer {
+public class Transformer implements Serializable {
+
     // Cinemas conversions
     public static CinemaEntity toCinemaEntity(CinemaFull cinema) {
         CinemaEntity entity = new CinemaEntity();
@@ -54,7 +56,6 @@ public class Transformer {
 
     public static ScreeningEntity toScrenningEntity(ScreeningManage screening) {
         ScreeningEntity entity = new ScreeningEntity();
-        entity.setUserId(screening.getUserId());
         entity.setTime(screening.getTime());
         entity.setRoom(screening.getRoom());
         entity.setProperty(screening.getProperty());
@@ -65,6 +66,8 @@ public class Transformer {
         ScreeningFull screening = new ScreeningFull();
         screening.setScreeningId(entity.getScreeningId());
         screening.setUserId(entity.getUserId());
+        screening.setCinemaId(entity.getCinemaEntity().getCinemaId());
+        screening.setMovieId(entity.getMovieEntity().getMovieId());
         screening.setTime(entity.getTime());
         screening.setRoom(entity.getRoom());
         screening.setProperty(entity.getProperty());
@@ -73,7 +76,8 @@ public class Transformer {
 
     public static ScreeningManage toScreeningManage(ScreeningEntity entity) {
         ScreeningManage screening = new ScreeningManage();
-        screening.setUserId(entity.getUserId());
+        screening.setCinemaId(entity.getCinemaEntity().getCinemaId());
+        screening.setMovieId(entity.getMovieEntity().getMovieId());
         screening.setTime(entity.getTime());
         screening.setRoom(entity.getRoom());
         screening.setProperty(entity.getProperty());

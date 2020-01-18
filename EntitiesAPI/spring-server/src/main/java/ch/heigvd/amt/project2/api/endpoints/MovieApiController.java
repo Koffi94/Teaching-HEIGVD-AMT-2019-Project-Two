@@ -26,40 +26,52 @@ public class MovieApiController implements MovieApi {
 
     @Override
     public ResponseEntity<Void> addMovie(@ApiParam(value = "Movie object that needs to be added to the DB" ,required=true )  @Valid @RequestBody MovieManage movie) {
-        MovieEntity newMovieEntity = toMovieEntity(movie);
-        movieRepository.save(newMovieEntity);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/movie/{id}")
-                .buildAndExpand(newMovieEntity.getMovieId()).toUri();
+        try {
+            MovieEntity newMovieEntity = toMovieEntity(movie);
+            movieRepository.save(newMovieEntity);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/movie/{id}")
+                    .buildAndExpand(newMovieEntity.getMovieId()).toUri();
 
-        return ResponseEntity.created(location).build();
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteMovie(@ApiParam(value = "The movie id that needs to be deleted",required=true) @PathVariable("movie_id") Long movieId) {
-        Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
-        movieRepository.delete(newMovieEntity.get());
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Void> editMovie(@ApiParam(value = "Movie id that needs to be edited",required=true) @PathVariable("movie_id") Long movieId,@ApiParam(value = "Movie object that needs to be edited" ,required=true )  @Valid @RequestBody MovieManage movie) {
-        Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
-        newMovieEntity.get().setTitle(movie.getTitle());
-        newMovieEntity.get().setRelease_date(movie.getReleaseDate());
-        newMovieEntity.get().setCategory(movie.getCategory());
-        movieRepository.save(newMovieEntity.get());
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<MovieManage> getMovie(@ApiParam(value = "The movie id that needs to be fetched",required=true) @PathVariable("movie_id") Long movieId) {
-        Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
-        if(!newMovieEntity.isPresent()) {
-            return ResponseEntity.status(404).build();
-            // throw new EntityNotFoundException(1, "Entity not found");
+            return ResponseEntity.created(location).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
         }
-        MovieManage newMovie = toMovieManage(newMovieEntity.get());
-        return  ResponseEntity.ok(newMovie);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteMovie(@ApiParam(value = "The movie id that needs to be deleted",required=true) @PathVariable("movie_id") Integer movieId) {
+        try {
+            Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
+            movieRepository.delete(newMovieEntity.get());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> editMovie(@ApiParam(value = "Movie id that needs to be edited",required=true) @PathVariable("movie_id") Integer movieId,@ApiParam(value = "Movie object that needs to be edited" ,required=true )  @Valid @RequestBody MovieManage movie) {
+        try {
+            Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
+            newMovieEntity.get().setTitle(movie.getTitle());
+            newMovieEntity.get().setRelease_date(movie.getReleaseDate());
+            newMovieEntity.get().setCategory(movie.getCategory());
+            movieRepository.save(newMovieEntity.get());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<MovieManage> getMovie(@ApiParam(value = "The movie id that needs to be fetched",required=true) @PathVariable("movie_id") Integer movieId) {
+        try {
+            Optional<MovieEntity> newMovieEntity = movieRepository.findById(movieId);
+            MovieManage newMovie = toMovieManage(newMovieEntity.get());
+            return ResponseEntity.ok(newMovie);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
     }
 }

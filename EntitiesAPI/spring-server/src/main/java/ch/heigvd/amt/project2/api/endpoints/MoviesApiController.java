@@ -1,9 +1,7 @@
 package ch.heigvd.amt.project2.api.endpoints;
 
 import ch.heigvd.amt.project2.api.MoviesApi;
-import ch.heigvd.amt.project2.api.model.CinemaFull;
 import ch.heigvd.amt.project2.api.model.MovieFull;
-import ch.heigvd.amt.project2.entities.CinemaEntity;
 import ch.heigvd.amt.project2.entities.MovieEntity;
 import ch.heigvd.amt.project2.repositories.IMovieRepository;
 import io.swagger.annotations.ApiParam;
@@ -31,20 +29,24 @@ public class MoviesApiController implements MoviesApi {
 
     @Override
     public ResponseEntity<List<MovieFull>> getMovies(@ApiParam(value = "") @Valid @RequestParam(value = "pageId", required = false) Integer pageId,@ApiParam(value = "") @Valid @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<MovieFull> movies = new ArrayList<>();
-        if(pageId == null) {
-            pageId = 0;
-        }
+        try {
+            List<MovieFull> movies = new ArrayList<>();
+            if (pageId == null) {
+                pageId = 0;
+            }
 
-        if(pageSize == null) {
-            pageSize = 10;
-        }
+            if (pageSize == null) {
+                pageSize = 10;
+            }
 
-        Pageable pageable = PageRequest.of(pageId,pageSize);
-        Page<MovieEntity> page = movieRepository.findAll(pageable);
-        for (MovieEntity movieEntity : page.toList()) {
-            movies.add(toMovieFull(movieEntity));
+            Pageable pageable = PageRequest.of(pageId, pageSize);
+            Page<MovieEntity> page = movieRepository.findAll(pageable);
+            for (MovieEntity movieEntity : page.toList()) {
+                movies.add(toMovieFull(movieEntity));
+            }
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
         }
-        return ResponseEntity.ok(movies);
     }
 }
