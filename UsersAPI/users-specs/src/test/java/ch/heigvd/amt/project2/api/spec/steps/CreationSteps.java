@@ -34,8 +34,8 @@ public class CreationSteps {
     private String token;
 
     private final String NEW_PASSWORD = "test2";
-    private final String PASSWORD = "test";
-    private final String USERNAME = "Test";
+    private final String PASSWORD = "testPasswd";
+    private final String USERNAME = "testUser";
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
