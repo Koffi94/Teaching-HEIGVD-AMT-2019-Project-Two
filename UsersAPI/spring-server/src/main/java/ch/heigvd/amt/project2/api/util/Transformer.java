@@ -9,7 +9,7 @@ import ch.heigvd.amt.project2.entities.UserEntity;
 public class Transformer {
     static public UserEntity toUserEntity(UserFull user) {
         UserEntity entity = new UserEntity();
-        entity.setId(user.getId());
+        entity.setUser_id(user.getId());
         entity.setFirstname(user.getFirstname());
         entity.setLastname(user.getLastname());
         entity.setUsername(user.getUsername());
@@ -32,7 +32,7 @@ public class Transformer {
 
     static public UserFull toUserFull(UserEntity entity) {
         UserFull user = new UserFull();
-        user.setId(entity.getId());
+        user.setId(entity.getUser_id());
         user.setFirstname(entity.getFirstname());
         user.setLastname(entity.getLastname());
         user.setUsername(entity.getUsername());

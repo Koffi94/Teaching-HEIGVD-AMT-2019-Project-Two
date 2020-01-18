@@ -35,7 +35,7 @@ public class SignUpApiController implements SignUpApi {
         userRepository.save(newUserEntity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/{id}")
-                .buildAndExpand(newUserEntity.getId()).toUri();
+                .buildAndExpand(newUserEntity.getUser_id()).toUri();
 
         return ResponseEntity.created(location).build();
     }
