@@ -17,8 +17,8 @@ Feature: Creation of users
     Then I receive a 200 status code
     And a bearer token
 
-#  Scenario: Update a user password
-#    Given I have a new password
-#    And a user id
-#    When I PATCH the /users/userId endpoint
-#    Then I receive a 200 status code
+  Scenario: wrong credentials
+    Given I have a username
+    And the wrong password
+    When I log into the /login endpoint
+    Then I receive a 403 status code
