@@ -67,3 +67,6 @@ Cucumber quant à lui permet de mettre en place rapidement des tests de comporte
 Les points difficiles concernant la partie développement des API à été la partie authentification. En effet, nous avons perdus pas mal de temps à essayer d'implémenter Spring Security pour manager la partie authentification. Après plusieurs tentatives, nous avons décidé de changer d'approche et d'utiliser l'authentification "classique" utilisée dans le projet 1. Spring Security est un composant très puissant qui permet de mettre en place des systèmes d'authentification et d'autorisation très poussé. Il n'est pas adapté pour notre petit projet et sa prise en main demandait trop d'effort par rapport à la taille de ce projet ainsi que du temps que nous avions à disposition.
 
 La principale difficulté de Cucumber vient de sa principale qualité, à savoir que ce framework gère beaucoup de chose pour le développeur. Ce qui signifie qu'en cas de bug, trouver l'origine de l'erreur peut vite devenir compliqué.
+
+
+[Retour vers le README](../README.md)
