@@ -21,25 +21,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/screenings?pageId=1&pageSize=2",
+					"raw": "http://localhost/api/business/screenings",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"screenings"
-					],
-					"query": [
-						{
-							"key": "pageId",
-							"value": "1"
-						},
-						{
-							"key": "pageSize",
-							"value": "2"
-						}
 					]
 				}
 			},
@@ -68,17 +58,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user_id\": 1,\n\t\"time\": \"14:00\",\n\t\"room\": \"R01\",\n\t\"property\": \"3D\"\n}"
+					"raw": "{\n\t\"user_id\": 2,\n\t\"cinema_id\": 2,\n\t\"movie_id\": 2,\n\t\"time\": \"14:00\",\n\t\"room\": \"R01\",\n\t\"property\": \"5D\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/screening",
+					"raw": "http://localhost/api/business/screening",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"screening"
 					]
 				}
@@ -101,16 +91,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/screening/1",
+					"raw": "http://localhost/api/business/screening/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"screening",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -204,14 +194,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/movies",
+					"raw": "http://localhost/api/business/movies",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"movies"
 					]
 				}
@@ -220,6 +210,29 @@
 		},
 		{
 			"name": "PostMovie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f163ebe1-32a0-48ab-8b6e-e4eb395b6f05",
+						"exec": [
+							"/*",
+							"{",
+							"\t\"title\": \"Hancock\",",
+							"\t\"release_date\": \"03/07/2008\",",
+							"\t\"category\": \"Action\"",
+							"}",
+							"{",
+							"\t\"title\": \"MIB\",",
+							"\t\"release_date\": \"02/05/2010\",",
+							"\t\"category\": \"Action\"",
+							"}",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -241,18 +254,19 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Hancock\",\n\t\"release_date\": \"03/07/208\",\n\t\"category\": \"Action\"\n}"
+					"raw": "{\n\t\"title\": \"Hancock10\",\n\t\"release_date\": \"03/07/208\",\n\t\"category\": \"Action\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/movie",
+					"raw": "http://localhost/api/business/movie/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
-						"movie"
+						"business",
+						"movie",
+						""
 					]
 				}
 			},
@@ -274,14 +288,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/movie/1",
+					"raw": "http://localhost/api/business/movie/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"movie",
 						"1"
 					]
@@ -312,17 +326,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Hancock2\",\n\t\"release_date\": \"03/07/208\",\n\t\"category\": \"Action\"\n}"
+					"raw": "{\n\t\"title\": \"Hancock50\",\n\t\"release_date\": \"03/07/208\",\n\t\"category\": \"Action\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/movie/1",
+					"raw": "http://localhost/api/business/movie/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"movie",
 						"1"
 					]
@@ -346,14 +360,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/movie/1",
+					"raw": "http://localhost/api/business/movie/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"movie",
 						"1"
 					]
@@ -377,25 +391,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/cinemas?offset=1&size=2",
+					"raw": "http://localhost/api/business/cinemas",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"cinemas"
-					],
-					"query": [
-						{
-							"key": "offset",
-							"value": "1"
-						},
-						{
-							"key": "size",
-							"value": "2"
-						}
 					]
 				}
 			},
@@ -403,6 +407,29 @@
 		},
 		{
 			"name": "PostCinema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "71fc85b2-00ce-402d-9fa7-1bf4aba67d06",
+						"exec": [
+							"/*",
+							"{",
+							"\t\"name\": \"Pathe Flon\",",
+							"\t\"city\": \"Lausanne\",",
+							"\t\"price\": \"20 CHF\"",
+							"}",
+							"{",
+							"\t\"name\": \"Gallery\",",
+							"\t\"city\": \"Malley\",",
+							"\t\"price\": \"18 CHF\"",
+							"}",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -424,17 +451,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"cinema_id\": null,\n\t\"name\": \"Pathe Flon\",\n\t\"city\": \"Lausanne\",\n\t\"price\": \"20 CHF\"\n}"
+					"raw": "{\n\t\"name\": \"Gallery\",\n\t\"city\": \"Malley\",\n\t\"price\": \"18 CHF\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/cinema",
+					"raw": "http://localhost/api/business/cinema",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"cinema"
 					]
 				}
@@ -457,14 +484,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/cinema/1",
+					"raw": "http://localhost/api/business/cinema/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"cinema",
 						"1"
 					]
@@ -498,14 +525,14 @@
 					"raw": "{\n\t\"name\": \"Pathe Galery\",\n\t\"city\": \"Malley\",\n\t\"price\": \"15 CHF\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/cinema/1",
+					"raw": "http://localhost/api/business/cinema/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
+						"business",
 						"cinema",
 						"1"
 					]
@@ -529,15 +556,15 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/screening/1",
+					"raw": "http://localhost/api/business/cinema/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"api",
-						"screening",
+						"business",
+						"cinema",
 						"1"
 					]
 				}
