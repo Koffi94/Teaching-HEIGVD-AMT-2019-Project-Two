@@ -3,9 +3,7 @@ Feature: Operations about movies
   # Enter feature description here
 
   Background:
-    Given there is an entities API
-    Given there is a user API
-    Given I am logged in
+    Given there is a Movie API
     Given I have an authentication token
 
   Scenario: Retrieve a list of movies
