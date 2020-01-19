@@ -17,7 +17,7 @@ Les spécifications peuvent être trouvées [ici](Documentation/Specifications.m
 
 5. Exécuter le script `runStop.sh` pour arrêter proprement l'infrastructure.
 
-L'adresse `localhost:80/api/auth` permet interagir avec la partie managment de l'application, l'adresse `http://localhost/api/business` permet d'interagir avec la partie business de l'application et l'adresse `http://localhost:9090` permet d'accéder à l'interface de gestion de Traefik.
+L'adresse `http://localhost/api/auth` permet interagir avec la partie managment de l'application, l'adresse `http://localhost/api/business` permet d'interagir avec la partie business de l'application et l'adresse `http://localhost:9090` permet d'accéder à l'interface de gestion de Traefik.
 
 ## Documentation
 Le rapport détaillé du projet se trouve [ici](Documentation/report.md).
