@@ -19,14 +19,14 @@ Feature: Operations about movies
   Scenario: Get a non existing movie
     Given I have the ID of a movie that is not in the database
     When I request that movie that is not there from the /movie/movie_id endpoint
-    Then I receive a 404 status code
+    Then I receive a 400 status code
 
     Scenario: Add a movie to the database
       Given I have a new movie
       When I send this movie to the /movie/movie_id endpoint
-      Then I receive a 200 status code
+      Then I receive a 201 status code
 
   Scenario: Delete a movie
     Given I have the ID of the movie I want to delete
     When I send DELETE to the /movie/movie_id endpoint
-    Then I receive a 200 status code
+    Then I receive a 201 status code200
