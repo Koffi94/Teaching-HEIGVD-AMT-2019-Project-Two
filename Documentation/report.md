@@ -12,7 +12,8 @@ Des tests de type BDD "Behavior Driver Development" sont effectués avec Cucumbe
 Des tests de charges sont effectués avec JMeter.
 
 ## Implementation
-// Diagramme du user domain + business domain ici
+**Diagramme du user domain et du business domain**
+![Diagramme APIs](images/DiagrammeAPIs.png)
 
 Concernant l'API user, nous avons implémenté les fonctionnalités suivantes :
 - Tous les comptes ont un id (autogénéré), prénom, nom, username, un mot de passe (hashé dans la DB), un email (unique) et un rôle.
@@ -38,19 +39,27 @@ Nous avons implémenté les fonctionnalités suivantes :
 - La pagination est implémentée pour afficher la liste des films, cinémas et séances existants. Les arguments `pageId` et `pageSize` permettent de définir le format des pages.
 
 Stratégie de test :
-// À faire
-// Explication ce qui a été testés avec les scénarios pour les 2 API
+Pour chacune des APIs, les réponses aux requêtes on été testées.
+Des requêtes valides et invalides ont été effectuées à l'aide de Cucumber. Ceci nous a permis de vérifier le comportement de l'API.
 
 ## Tests & Résultats
 Tests BDD avec Cucumber :
 // Mettre un screen des tests qui passent (user API + entities API) par ex.
 
 Tests de charges avec JMeter :
-// Mettre des screens des tests effectés (e.g: insertions de 1M users) et commenter les Résultats
 
+**100 utilisateurs**
+![100 utilisateurs](images/100_users.png)
+
+**1000 utilisateurs**
+![1000 utilisateurs](images/1000_users.png)
+
+**10'000 utilisateurs**
+![10'000 utilisateurs](images/10000_users.png)
 ## Conclusion
-Ce projet nous a permis de prendre en main le framework Spring Boot. Ayant réalisé le projet 1 avec JavaEE, on réalise que malgré le fait que Spring boot se base sur les composants de JavaEE, une fois pris en main, il permet d'être très efficace et de déployer des applications complexes assez rapidement.
+Ce projet nous a permis de prendre en main les frameworks Spring Boot et Cucumber. Ayant réalisé le projet 1 avec JavaEE, on réalise que malgré le fait que Spring boot se base sur les composants de JavaEE, une fois pris en main, il permet d'être très efficace et de déployer des applications complexes assez rapidement.
+Cucumber quant à lui permet de mettre en place rapidement des tests de comportement d'API .
 
 Les points difficiles concernant la partie développement des API à été la partie authentification. En effet, nous avons perdus pas mal de temps à essayer d'implémenter Spring Security pour manager la partie authentifcation. Après plusieurs tentatives, nous avons décidé de changer d'approche et d'utiliser l'authentification "classique" utilisée dans le projet 1. Spring Security est un composant très puissant qui permet de mettre en place des systèmes d'authentification et d'authorisation très poussé. Il n'est pas adapté pour notre petit projet et sa prise en main demandait trop d'effort par rapport à la taille de ce projet ainsi que du temps que nous avions à disposition.
 
-// Commentaire concernant Cucumber ici
+La principale difficulté de Cucumber vient de sa principale qualité, à savoir que ce framework gère beaucoup de chose pour le développeur. Ce qui signifie qu'en cas de bug, trouver l'origine de l'erreur peut vite devenir compliqué.

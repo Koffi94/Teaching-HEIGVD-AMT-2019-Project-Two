@@ -2,5 +2,7 @@
 Feature: Operations about screenings
   # Enter feature description here
 
-  Scenario: # Enter scenario name here
-    # Enter steps here
+  Background:
+    Given 
+
+  Scenario: Get a list of screenings
