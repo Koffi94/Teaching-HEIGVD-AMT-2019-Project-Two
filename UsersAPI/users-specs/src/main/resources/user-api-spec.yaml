@@ -73,6 +73,8 @@ paths:
         404:
           description: "Not found"
     delete:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Delete a user"

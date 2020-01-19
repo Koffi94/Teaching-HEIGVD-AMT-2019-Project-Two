@@ -46,6 +46,15 @@ public class UpdateDeleteSteps {
         this.userManage = environment.getUserManage();
     }
 
+    @Given("^there is an Authentication API available$")
+    public void there_is_an_Authentication_API_available() throws Throwable {
+        assertNotNull(authApi);
+    }
+    @Given("^there is a User API server available$")
+    public void there_is_a_User_API_server_available() throws Throwable {
+        assertNotNull(api);
+    }
+
     @Given("^I have obtained an authorization token$")
     public void i_have_obtained_an_authorization_token() throws Throwable {
         userAuth.setUsername(USERNAME);
@@ -65,7 +74,7 @@ public class UpdateDeleteSteps {
         Map<String, List<String>> headers = lastApiResponse.getHeaders();
         List<String> authorization = headers.get("Authorization");
         this.token = authorization.get(0);
-        assertNotNull(token);
+        assertNotNull(this.token);
     }
 
     @Given("^a user id$")
@@ -124,5 +133,30 @@ public class UpdateDeleteSteps {
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
         }
+    }
+
+    @Given("^the id of the user to delete$")
+    public void the_id_of_the_user_to_delete() throws Throwable {
+        user_id = 1;
+    }
+    @When("^I send a deletion request$")
+    public void i_send_a_deletion_request() throws Throwable {
+        try{
+            api.getApiClient().setApiKey(token);
+            lastApiResponse = api.deleteUserWithHttpInfo(user_id);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiResponse = null;
+            lastApiCallThrewException = true;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+    @Then("^I receive a (\\d+) status code for confirmation$")
+    public void i_receive_a_status_code_for_confirmation(int arg1) throws Throwable {
+        assertEquals(arg1, lastStatusCode);
     }
 }
