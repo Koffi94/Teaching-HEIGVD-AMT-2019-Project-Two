@@ -15,6 +15,7 @@ import cucumber.api.java.en.When;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,19 +38,24 @@ public class CreationSteps {
     private final String PASSWORD = "testPasswd";
     private final String USERNAME = "testUser";
 
+    private String testUsername = USERNAME;
+
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
+    // To be able to run the test multiples times without cleaning the DB after each run
+    private Random rnd = new Random();
 
     public CreationSteps(Environment environment){
         this.environment = environment;
         this.api = environment.getApi();
-        //this.userFull = environment.getUserFull();
         this.userManage = environment.getUserManage();
         this.userAuth = environment.getUserAuth();
         this.token = environment.getToken();
         this.authApi = environment.getAuthenticationApi();
+
+        rnd.setSeed(System.currentTimeMillis());
     }
 
     @Given("^there is a User API server$")
@@ -64,10 +70,14 @@ public class CreationSteps {
 
     @Given("^I have a user payload$")
     public void i_have_a_user_payload() throws Throwable {
-        userManage.setEmail("userJohn@mail.com");
+        //int number = rnd.nextInt();
+
+        //userManage.setEmail("user" + number +"@mail.com");
+        userManage.setEmail("user@gmail.com");
         userManage.setFirstname("John");
         userManage.setLastname("Doe");
-        userManage.setUsername(USERNAME);
+        //userManage.setUsername(this.testUsername + number);
+        userManage.setUsername(this.testUsername);
         userManage.setPassword(PASSWORD);
         userManage.setRole("admin");
     }
@@ -98,7 +108,7 @@ public class CreationSteps {
     }
     @Given("^a password$")
     public void a_password() throws Throwable {
-        userAuth.setUsername(USERNAME);
+        userAuth.setUsername(this.testUsername);
     }
     @When("^I log into the /login endpoint$")
     public void i_log_into_the_login_endpoint() throws Throwable {
@@ -119,6 +129,11 @@ public class CreationSteps {
         Map<String, List<String>> headers = lastApiResponse.getHeaders();
         List<String> token = headers.get("Authorization");
         assertNotNull(token.get(0));
+    }
+
+    @Given("^the wrong password$")
+    public void the_wrong_password() throws Throwable {
+        userAuth.setPassword("wrong");
     }
 
     @Given("^I have a new password$")

@@ -7,12 +7,10 @@ import ch.heigvd.amt.project2.api.AuthenticationApi;
 import ch.heigvd.amt.project2.api.model.UserAuth;
 import ch.heigvd.amt.project2.api.model.UserFull;
 import ch.heigvd.amt.project2.api.spec.helpers.Environment;
-import ch.heigvd.amt.project2.auth.HttpBearerAuth;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.experimental.theories.internal.ParameterizedAssertionError;
 
 import java.util.List;
 import java.util.Map;
@@ -38,22 +36,14 @@ public class ReadSteps {
     static final String USERNAME = "testUser";
     static final String PASSWORD = "testPasswd";
     static final int USER_ID = 1;
-    static final int PAGE = 1;
+    static final int PAGE_ID = 1;
     static final int PAGE_SIZE = 10;
-    static final int REMOVE_BEARER = 8;
 
     public ReadSteps(Environment environment){
         this.environment = environment;
         this.api = environment.getApi();
         this.authApi = environment.getAuthenticationApi();
         this.userAuth = environment.getUserAuth();
-        /*this.user = new UserFull();
-        this.user.setEmail("test@mail.com");
-        this.user.setFirstname("Jane");
-        this.user.setLastname("Doe");
-        this.user.setRole("admin");
-        this.user.setUsername(USERNAME);
-        this.user.setPassword(PASSWORD);*/
         this.token = environment.getToken();
     }
 
@@ -66,7 +56,7 @@ public class ReadSteps {
     public void i_GET_the_users_from_the_users_endpoint() throws Throwable {
         try{
             api.getApiClient().setApiKey(token);
-            lastApiResponse = api.getUsersWithHttpInfo(1, 10);
+            lastApiResponse = api.getUsersWithHttpInfo(PAGE_ID, PAGE_SIZE);
             lastApiException = null;
             lastApiCallThrewException = false;
             lastStatusCode = lastApiResponse.getStatusCode();

@@ -154,8 +154,8 @@ paths:
       responses:
         200:
           description: "OK"
-        400:
-          description: "Bad input"
+        403:
+          description: "Forbidden"
 definitions:
   UserFull:
     type: "object"
