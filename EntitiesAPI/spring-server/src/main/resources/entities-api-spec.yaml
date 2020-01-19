@@ -5,7 +5,7 @@ info:
   title: "AMT - Project 2 - Entities API"
 
 host: "localhost:8080"
-basePath: "/api"
+basePath: "/api/business"
 schemes:
   - http
 tags:

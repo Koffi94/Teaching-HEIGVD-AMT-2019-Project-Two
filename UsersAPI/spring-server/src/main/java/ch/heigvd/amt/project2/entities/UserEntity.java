@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer user_id;
     private String firstname;
     private String lastname;
     @Column(nullable=false)

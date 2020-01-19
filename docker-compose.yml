@@ -5,9 +5,14 @@ services:
     reverse-proxy:
         container_name: amt-traefik
         # Official v2.0 Traefik docker image
-        image: traefik:v2.0
+        image: traefik:v2.1.2
         # Enables the web UI and tells Traefik to listen to docker
-        command: --api.insecure=true --providers.docker
+        command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.mysql.address=:3306"
         ports:
             # HTTP port
             - "80:80"
@@ -15,7 +20,7 @@ services:
             - "9090:8080"
         volumes:
             # So that Traefik can listen to the Docker events
-            - /var/run/docker.sock:/var/run/docker.sock
+                - /var/run/docker.sock:/var/run/docker.sock:ro
 
         depends_on: 
             - user-api
@@ -25,58 +30,63 @@ services:
     user-api:
         container_name: amt-user-api
         build:
-            context: UsersAPI/spring-server/
-
+            context: UsersAPI/
+        environment:
+            spring_profiles_active: docker
         depends_on: 
-            - user-db
+            - db
         links: 
-            - user-db
+            - db
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.management.rule=Host(`localhost`) && PathPrefix(`/api/auth`)"
+            - "traefik.http.services.management.loadbalancer.server.port=8080"
 
     entities-api:
         container_name: amt-entities-api
         build:
-            context: EntitiesAPI/spring-server/
+            context: EntitiesAPI/
 
         depends_on: 
-            - entities-db
+            - db
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.app.rule=Host(`localhost`) && PathPrefix(`/api/business`)"
+            - "traefik.http.services.app.loadbalancer.server.port=8080"
 
-    user-db:
-        container_name: amt-user-db
+    db:
+        container_name: amt-db
         build:
-            context: UsersAPI/Docker-Images/DB-image/
+            context: DB-image/
 
         ports:
             - "3306:3306"
 
         restart: always
         environment: 
-            #MYSQL_DATABASE: "db_example"
+            MYSQL_USER: "springuser"
+            MYSQL_PASSWORD: "admin"
             MYSQL_ROOT_PASSWORD: "admin"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
+            - "traefik.tcp.routers.mysql.entrypoints=mysql"
+            - "traefik.tcp.routers.mysql.service=mysql"
+            - "traefik.tcp.services.mysql.loadbalancer.server.port=3306"
 
     # For DB debugging
     phpmyadmin-user:
         container_name: amt-phpmyadmin-user
         build: 
-            context: UsersAPI/Docker-Images/PHPmyAdmin-image
+            context: DB-image/PHPmyAdmin-image
         environment: 
             PMA_USER: "root"
             PMA_PASSWORD: "admin"
-            PMA_HOST: "user-db"
+            PMA_HOST: "db"
             PMA_PORT: "3306"
         ports: 
-            - 80:80
+            - 8081:80
         links: 
-            - user-db
+            - db
         depends_on: 
-            - user-db
-
-    entities-db:
-        container_name: amt-entities-db
-        build:
-            context: EntitiesAPI/Docker-Images/DB-image/
-        ports:
-            - "4306:3306"
-
-        restart: always
-        environment: 
-            MYSQL_ROOT_PASSWORD: "admin"
+            - db

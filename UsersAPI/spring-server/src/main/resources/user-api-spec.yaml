@@ -1,21 +1,29 @@
 swagger: "2.0"
 info:
-  description: "This is the documentation of the AMT Project 2"
+  description: "This is the documentation of the User API"
   version: "1.0.0"
   title: "AMT - Project 2"
 
 host: "localhost:8080"
-basePath: "/api"
+basePath: "/api/auth"
 schemes:
   - http
+securityDefinitions:
+  basicAuth:
+    type: apiKey
+    name: Authorization
+    in: header
 tags:
   - name: "User"
     description: "Operations about user"
   - name: "Authentication"
     description: "Operations about authentication (sign-up, login, logout, etc)"
+
 paths:
   /users:
     get:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Display all users"
@@ -40,6 +48,8 @@ paths:
           description: "Bad request"
   /user/{user_id}:
     get:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Display a user"
@@ -60,7 +70,11 @@ paths:
             $ref: "#/definitions/UserManage"
         400:
           description: "Bad request"
+        404:
+          description: "Not found"
     delete:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Delete a user"
@@ -80,6 +94,8 @@ paths:
         404:
           description: "User not found"
     put:
+      security:
+        - basicAuth: []
       tags:
         - "User"
       summary: "Edit a user"
@@ -125,6 +141,8 @@ paths:
           description: "Bad input"
   /login:
     post:
+      security:
+        - basicAuth: []
       tags:
         - "Authentication"
       description: "Authenticate a user"
@@ -138,10 +156,10 @@ paths:
           schema:
             $ref: "#/definitions/UserAuth"
       responses:
-        201:
-          description: "created"
-        400:
-          description: "Bad input"
+        200:
+          description: "OK"
+        403:
+          description: "Forbidden"
 definitions:
   UserFull:
     type: "object"

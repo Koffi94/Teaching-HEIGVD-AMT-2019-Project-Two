@@ -2,7 +2,9 @@ package ch.heigvd.amt.project2.api.spec.helpers;
 
 import ch.heigvd.amt.project2.api.AuthenticationApi;
 import ch.heigvd.amt.project2.api.UserApi;
-import ch.heigvd.amt.project2.api.model.User;
+import ch.heigvd.amt.project2.api.model.UserAuth;
+import ch.heigvd.amt.project2.api.model.UserFull;
+import ch.heigvd.amt.project2.api.model.UserManage;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -14,7 +16,9 @@ import java.util.Properties;
 public class Environment {
 
     private UserApi api = new UserApi();
-    private User user = new User();
+    private UserFull userFull = new UserFull();
+    private UserManage userManage = new UserManage();
+    private UserAuth userAuth = new UserAuth();
     private AuthenticationApi authenticationApi = new AuthenticationApi();
     private String token;
 
@@ -30,8 +34,16 @@ public class Environment {
         return api;
     }
 
-    public User getUser(){
-        return user;
+    public UserFull getUserFull(){
+        return userFull;
+    }
+
+    public UserManage getUserManage() {
+        return userManage;
+    }
+
+    public UserAuth getUserAuth() {
+        return userAuth;
     }
 
     public void setToken(String token){

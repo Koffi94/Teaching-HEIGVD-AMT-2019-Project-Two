@@ -46,7 +46,7 @@ public class LoginApiController implements LoginApi {
         UserEntity userEntity = userRepository.findByUsername(user.getUsername());
         if(userEntity != null && bCryptPasswordEncoder.matches(user.getPassword(), userEntity.getPassword())) {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id", userEntity.getId());
+            jsonObj.put("id", userEntity.getUser_id());
             jsonObj.put("role", userEntity.getRole());
             String token = JWT.create()
                     .withSubject(jsonObj.toString())
