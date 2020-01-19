@@ -118,4 +118,20 @@ public class ReadSteps {
         this.token = authorization.get(0);
         assertNotNull(this.token);
     }
+
+    @When("^I GET a user that do not exist from the /users endpoint$")
+    public void i_GET_a_user_that_do_not_exist_from_the_users_endpoint() throws Throwable {
+        try{
+            api.getApiClient().setApiKey(token);
+            lastApiResponse = api.getUserWithHttpInfo(0);
+            lastApiException = null;
+            lastApiCallThrewException = false;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        }catch (ApiException e){
+            lastApiResponse = null;
+            lastApiException = e;
+            lastApiCallThrewException = true;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
 }

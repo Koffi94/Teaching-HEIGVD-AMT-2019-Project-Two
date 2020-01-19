@@ -136,30 +136,4 @@ public class CreationSteps {
         userAuth.setPassword("wrong");
     }
 
-    @Given("^I have a new password$")
-    public void i_have_a_new_password() throws Throwable {
-        assertNotNull(NEW_PASSWORD); //FIXME test not really useful ?
-    }
-
-    @And("^a user id$")
-    public void a_user_id() {
-        assertNotNull(userFull.getId());
-    } //FIXME
-
-    @When("^I PATCH the /users/userId endpoint$")
-    public void i_PATCH_the_users_userId_endpoint() throws Throwable {
-        /*try{
-            lastApiResponse = api.getUserWithHttpInfo(1);
-            lastApiCallThrewException = false;
-            lastApiException = null;
-            lastStatusCode = lastApiResponse.getStatusCode();
-
-        }catch (ApiException e){
-            lastApiResponse = null;
-            lastApiCallThrewException = true;
-            lastApiException = e;
-            lastStatusCode = lastApiException.getCode();
-        }*/
-    }
-
 }
